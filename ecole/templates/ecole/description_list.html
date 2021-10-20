@@ -1,0 +1,46 @@
+ <h2>Ecole voguel Form</h2>
+
+  <form method="post" id="descriptionForm" data-niveaux-url="{% url 'ajax_load_niveaux' %}" data-classes-url="{% url 'ajax_load_classes' %}" novalidate>
+    {% csrf_token %}
+    
+      
+      {{ form.as_p }}
+    
+    <button type="submit"  >Save</button>
+    
+  </form>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<script>
+    $("#id_ecole").change(function () {
+      var url = $("#descriptionForm").attr("data-niveaux-url");  
+      var ecoleId = $(this).val();  
+
+      $.ajax({                      
+        url: url,                    
+        data: {
+          'ecole_id': ecoleId      
+        },
+        success: function (data) {  
+          $("#id_niveau").html(data);  
+        }
+      });
+
+    });
+    $("#id_niveau").change(function () {
+      var url = $("#descriptionForm").attr("data-classes-url");  
+      var niveauId = $(this).val();  
+
+      $.ajax({                      
+        url: url,                    
+        data: {
+          'niveau_id': niveauId      
+        },
+        success: function (data) {  
+
+          $("#id_classe").html(data);  
+        }
+      });
+
+    });
+  </script>
